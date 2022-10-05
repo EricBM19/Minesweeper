@@ -1,0 +1,34 @@
+1.Encender la aplicación y que aparezca todo default: Casillas sin marcar, contador de bombas, tiempo y estado del jugador.
+2.Clickar sobre una casilla y que aparezca un numero.
+3.Clickar sobre una casilla y que aparezca una bomba.
+4.Clickar sobre una casilla y que aparezca una area vacia.
+5.Marcar una casilla con un !
+6.Marcar una casilla con un ?
+8.Clickar sobre una casilla y que aparezca un 1.
+9.Clickar sobre una casilla y que aparezca un 2.
+10.Clickar sobre una casilla y que aparezca un 3.
+11.Clickar sobre una casilla y que aparezca un 4.
+12.Reiniciar la partida una vez finalizada (no se ha detonado ninguna bomba).
+13.Reiniciar la partida una vez detonada una bomba.
+14.Reiniciar la partida sin finalizar la partida.
+15.Marcar una casilla con un ! y que en esta haya una bomba en la casilla.
+16.Marcar una casilla con un ! y que en esta no haya una bomba en la casilla.
+17.Reiniciar la partida sin haber hecho nada.
+
+-------------------------------------------------------------------------------------
+
+Revision 1
+
+Definir mejor el nombre de los tests.
+Basar los tests y el feature file en un tablero definido.
+Antes de empezar a describir escenarios, definir mejor lo que el usuario se va a encontrar
+en estos.
+
+--------------------------------------------------------------------------------------
+
+Revision 2
+
+Definir mejor las marcas
+No decir clicks sino destapar
+Separar entre explicacion y accion
+Englobar los casos de casillas con bombas cerca
