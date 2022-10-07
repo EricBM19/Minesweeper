@@ -159,7 +159,7 @@ Then all cells should be clear and without any information
 
 @manual
 Scenario: Reseting the Timer in the middle of one game
-Given the user has a timer value: "10" que el usuario empieza un apartida y espoera unos segundos
+Given the user starts a game and waits "10" seconds
 When the user resets
 Then the timer value should be empty
 
@@ -168,7 +168,7 @@ Given the user tags a box at "1-1" as mined
 When the user presses the "reset" button
 Then the Counter value should be: "10"
 
-@manual  ?? mock???
+@manual
 Scenario: Exceding the time limit
 Given the user set the next timer value: "999"
 And the user tags as mined "1-1"
