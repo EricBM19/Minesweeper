@@ -1,3 +1,13 @@
+body
+{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.container
+{
+    background: linear-gradient(to right, #00AAFF, #00FF6C);
+}
+
 #board
 {
     width: 400px;
@@ -13,8 +23,8 @@
 
 #board div
 {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     border: 1px solid whitesmoke;
 
     font-size: 30px;
@@ -36,3 +46,17 @@
     background: darkgray;
 }
 
+.x1
+{
+    color: blue;
+}
+
+.x2
+{
+    color: green;
+}
+
+.x3
+{
+    color: red;
+}
