@@ -4,6 +4,7 @@ var columns = 8;
 
 var minesCount = 10;
 var minesLocation = [];
+var tilesClicked = 0;
 
 var gameOver = false;
 
@@ -97,7 +98,7 @@ function checkMines(r, c)
         return;
     }
 
-    board[r][c].classList.add("tile-clicked")
+    board[r][c].classList.add("tile-clicked");
 
     let minesFound = 0;
 
@@ -128,11 +129,6 @@ function checkMines(r, c)
         checkMines(r+1, c-1);
         checkMines(r+1, c);
         checkMines(r+1, c+1);
-    }
-
-    if(tilesClicked == rows * columns - minesCount)
-    {
-        document.getElementById("mines-counter").innerText = "Cleared"
     }
 }
 
