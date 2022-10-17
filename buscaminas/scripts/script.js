@@ -5,6 +5,7 @@ var columns = 8;
 var minesCount = 10;
 var minesLocation = [];
 var tilesClicked = 0;
+var seconds = null;
 
 var gameOver = false;
 
@@ -16,6 +17,7 @@ window.onload = function()
 function startGame()
 {
     document.getElementById("mines-counter").innerText = minesCount;
+    document.getElementById("timer").innerText = seconds;
     setMines();
 
     for (let r = 0; r < rows; r++)
@@ -31,8 +33,6 @@ function startGame()
         }
         board.push(rows);
     }
-
-    console.log(board);
 }
 
 function setMines()
@@ -62,6 +62,7 @@ function clickCells()
     {
         gameOver = true;
         revealMines();
+        document.getElementById("status").innerText = "💀";
         return;
     }
 
@@ -116,6 +117,7 @@ function checkMines(r, c)
     if(minesFound > 0)
     {
         board[r][c].innerText = minesFound;
+        board[r][c].classList.add("x" + minesFound.toString());
     }
     else
     {
