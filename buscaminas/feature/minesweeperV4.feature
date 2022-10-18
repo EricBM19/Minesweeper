@@ -6,6 +6,17 @@ Feature: Minesweeper
 "1-1" means row 1, column 1
 Rows and columns start at 1
 
+"""
+| 1 | 2 | - | - | 1 | 1 | 1 | 1 |
+| - | 3 | 3 | 2 | 1 | 2 | - | 2 |
+| 2 | - | 1 | 0 | 0 | 2 | - | 2 |
+| 1 | 1 | 1 | 0 | 0 | 1 | 1 | 0 |
+| 0 | 0 | 0 | 0 | 0 | 0 | - | - |
+| 0 | 0 | 0 | 0 | 0 | 0 | - | - |
+| 0 | 1 | 1 | 1 | 0 | 0 | 3 | - |
+| 0 | 1 | - | 1 | 0 | 0 | 2 | - |
+"""
+
 Background:
 Given a user opens the app
 
@@ -16,7 +27,7 @@ Scenario: Default Timer, stopped by default
 Then the timer should show the following value: ""
 
 Scenario: Default Status, alive
-Then the status should be: "alive"
+Then the status should be: "😐"
 
 Scenario: Default cells status, clear and untagged
 Then all cells should be hidden
@@ -130,14 +141,14 @@ Scenario: An empty cell revealed by a neighbour, revealling surroindeing cells
 When the user reveals the box at "3-4" 
 Then the minefield should look like:
 """
-12--1111
--33212-2
-2-1002-2
-11100110
-000000--
-000000--
-0111003-
-01-1002-
+| 1 | 2 | - | - | 1 | 1 | 1 | 1 |
+| - | 3 | 3 | 2 | 1 | 2 | - | 2 |
+| 2 | - | 1 | 0 | 0 | 2 | - | 2 |
+| 1 | 1 | 1 | 0 | 0 | 1 | 1 | 0 |
+| 0 | 0 | 0 | 0 | 0 | 0 | - | - |
+| 0 | 0 | 0 | 0 | 0 | 0 | - | - |
+| 0 | 1 | 1 | 1 | 0 | 0 | 3 | - |
+| 0 | 1 | - | 1 | 0 | 0 | 2 | - |
 """
 
 Scenario: Revealing all the cells without bomb, the player wins
