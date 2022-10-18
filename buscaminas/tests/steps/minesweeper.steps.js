@@ -4,6 +4,13 @@ const { expect } = require('@playwright/test');
 
 const url = 'http://127.0.0.1:5500/main.html';
 
-Given('a user opens the app', async () => {
+Given('a user opens the app', async () => 
+{
 	await page.goto(url);
+});
+
+Then('the counter should show the following value: {string}', async (string) => 
+{
+  let counter = await page.locator('data-test-id=counter').innerText();
+  expect(counter).toBe(string);
 });
