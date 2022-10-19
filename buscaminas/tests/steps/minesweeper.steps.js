@@ -14,3 +14,15 @@ Then('the counter should show the following value: {string}', async (string) =>
   let counter = await page.locator('data-test-id=counter').innerText();
   expect(counter).toBe(string);
 });
+
+Then('the timer should show the following value: {string}', async (string) => 
+{  
+  let timer = await page.locator('data-test-id=time').innerText();
+  expect(timer).toBe(string);
+});
+
+Then('the status should be: {string}', async (string) =>
+{
+  let status = await page.locator('data-test-id=status').innerText();
+  expect(status).toBe(string);
+});
