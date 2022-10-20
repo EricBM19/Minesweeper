@@ -20,23 +20,28 @@ Rows and columns start at 1
 Background:
 Given a user opens the app
 
+@done
 Scenario Outline: Default Counter, must show the amount of hidden mines in the board
 Then the counter should show the following value: "10"
 
+@done
 Scenario: Default Timer, stopped by default
 Then the timer should show the following value: ""
 
+@done
 Scenario: Default Status, alive
 Then the status should be: "😐"
 
+@manual
 Scenario: Default cells status, clear and untagged
-Then all cells should be hidden
-And all cells should not display any information
+Then all cells should not display any information
 
+@done
 Scenario: Default board dimensions
-Then the amount of rows should be 8
-And the amount of columns should be 8
+Then the amount of rows should be: 8
+And the amount of columns should be: 8
 
+@manual
 Scenario: Activating the Timer
 When the user reveals the box "1-1"
 Then the Timer value should start counting
@@ -72,13 +77,13 @@ Examples:
 
 Scenario: Changing the Counter value by adding a mined tag
 Given the Counter shows a "<current-value>"
-When the user tags a box at "<row>" and "<column>" as mined
+When the user tags a box at "<Row-Column>" as mined
 Then the "<Counter value>" should change 
 
 Example:
-| current-value |  Row  |  Column  | Counter Value |
-|       10      |   1   |     1    |       9       |
-|        5      |   2   |     6    |       4       |
+| current-value |  Row-Column  | Counter Value |
+|       10      |     1-1      |       9       |
+|        5      |     2-6      |       4       |
 
 Scenario: Revealing a tagged box must be allowed
 Given the user tags the box at "1-1" as mined
@@ -86,22 +91,21 @@ When the user revals the box "1-1"
 Then the box "1-1" should reveal its content
 
 Scenario Outline: When the user reveals a mined box, the game ends with a game over
-Given the user reveal the box at "<Row>" and "<Column>"
+Given the user reveal the box at "<Row-Column>"
 When the box reveals a mine box
 Then the game should end
 
 Example:
-|  Row  |  Column  |
-|   1   |    3     |
-|   1   |    4     |
-|   2   |    1     |
-|   2   |    7     |
-|   3   |    2     |
-|   3   |    7     |
-|   6   |    8     |
-|   7   |    8     |
-|   8   |    3     |
-|   8   |    8     |
+|  Row-Column  |
+|     1-3      |
+|     2-1      |
+|     2-7      |
+|     3-2      |
+|     3-7      |
+|     6-8      |
+|     7-8      |
+|     8-3      |
+|     8-8      |
 
 Scenario: Revealing all bombs when the player dies
 When the user reveal the box at "1-3"
@@ -112,19 +116,19 @@ When the user reveal the box at "1-3"
 Then all boxes marked tagged as uncertain should be displayed
 
 Scenario Outline: Revealing a box with bombs near and without a mine
-When the user reveal the box at "<Row>" and "<Column>"
+When the user reveal the box at "<Row-Column>"
 Then the box should display a "<Number>"
 
 Example:
-|  Row  |  Column  |  Number  |
-|   1   |    1     |    1     |
-|   1   |    2     |    2     |
-|   2   |    2     |    3     |
-|   7   |    3     |    1     |
-|   3   |    6     |    2     |
-|   7   |    7     |    3     |
 
-Scenario: When the game is over and the user had tagged a box incorrectly, tenemos que destacar los errores
+|  Row-Column  |  Number  |
+|     1-1      |    1     |
+|     1-2      |    2     |
+|     2-2      |    3     |
+|     7-3      |    1     |
+|     3-6      |    2     |
+
+Scenario: When the game is over and the user had tagged a box incorrectly, we should show the mistaken tagged cells
 Given the user tags as mined a box at "1-1"
 When the user unleash a mined cell at "2-1"
 Then the "1-1" box should display a bad tagged mine symbol
@@ -174,6 +178,7 @@ Given the user starts a game and waits "10" seconds
 When the user resets
 Then the timer value should be empty
 
+@manual
 Scenario: Reseting the Counter value
 Given the user tags a box at "1-1" as mined
 When the user presses the "reset" button
