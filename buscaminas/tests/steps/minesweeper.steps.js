@@ -42,3 +42,23 @@ Then('the amount of columns should be: {int}', async (int) =>
   let colId = await lastCell.split("-")[1];
   expect(parseInt(colId)).toBe(int-1);
 });
+
+When('the user marks the box {string} as {string}', async (string, string2) =>
+{
+  var tileId = 'data-test-id=' + string;
+  if(string2 == "mined")
+  {
+    await page.click(tileId, {button: 'right'});
+  }
+  else if(string2 == "uncertain")
+  {
+    await page.click(tileId, {button: 'right'});
+    await page.click(tileId, {button: 'right'});
+  }
+});
+
+Then('the box {string} should display a symbol: {string}', async (string, string2) =>
+{
+  let tile = await page.locator('data-test-id=' + string).innerText();
+  expect(tile).toBe(string2);
+});
