@@ -17,7 +17,6 @@ window.onload = function()
 function startGame()
 {
     var parameters = getUrlParameters();
-    console.log(parameters);
     document.getElementById("mines-counter").innerText = minesCount;
     document.getElementById("timer").innerText = seconds;
     if(parameters != null)
@@ -30,7 +29,9 @@ function startGame()
             {
                 let tile = document.createElement("div");
                 tile.id = r.toString() + "-" + col.toString();
+                tile.setAttribute("data-test-id", (r+1) + "-" + (col+1));
                 tile.addEventListener("click", clickCells);
+                tile.addEventListener("contextmenu", tagCell);
                 document.getElementById("board").append(tile);
                 rows.push(tile);
             }
@@ -39,6 +40,7 @@ function startGame()
     }
     else
     {   
+        setRandomMines();
         for (let r = 0; r < rows; r++)
         {
             let rows = [];
@@ -46,7 +48,9 @@ function startGame()
             {
                 let tile = document.createElement("div");
                 tile.id = r.toString() + "-" + col.toString();
+                tile.setAttribute("data-test-id", (r+1) + "-" + (col+1));
                 tile.addEventListener("click", clickCells);
+                tile.addEventListener("contextmenu", tagCell);
                 document.getElementById("board").append(tile);
                 rows.push(tile);
             }
@@ -67,6 +71,22 @@ function setMines()
     minesLocation.push("6-7");
     minesLocation.push("7-2");
     minesLocation.push("7-7");
+}
+
+function setRandomMines()
+{
+    let minesLeft = minesCount;
+    while (minesLeft > 0) 
+    { 
+        let r = Math.floor(Math.random() * rows);
+        let c = Math.floor(Math.random() * columns);
+        let id = r.toString() + "-" + c.toString();
+
+        if (!minesLocation.includes(id)) {
+            minesLocation.push(id);
+            minesLeft -= 1;
+        }
+    }
 }
 
 function clickCells()
@@ -174,4 +194,27 @@ function getUrlParameters()
     var separatedUrl = url.split('?');
     var parameters = separatedUrl[1];
     return parameters;
+}
+
+function tagCell()
+{
+    event.preventDefault();
+    let tile = this;
+    
+    if(!this.classList.contains("tile-clicked"))
+    {
+        if(tile.innerText == '')
+        {
+            tile.innerText = '!';   
+        }
+        else if(tile.innerText == '!')
+        {
+            tile.innerText = '?';
+        }
+        else if(tile.innerText == '?')
+        {
+            tile.innerText = '';
+        }
+    }
+    
 }
