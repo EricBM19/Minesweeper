@@ -16,23 +16,43 @@ window.onload = function()
 
 function startGame()
 {
+    var parameters = getUrlParameters();
+    console.log(parameters);
     document.getElementById("mines-counter").innerText = minesCount;
     document.getElementById("timer").innerText = seconds;
-    setMines();
-
-    for (let r = 0; r < rows; r++)
+    if(parameters != null)
     {
-        let rows = [];
-        for(let col = 0; col < columns; col++)
+        setMines();
+        for (let r = 0; r < rows; r++)
         {
-            let tile = document.createElement("div");
-            tile.id = r.toString() + "-" + col.toString();
-            tile.addEventListener("click", clickCells);
-            document.getElementById("board").append(tile);
-            rows.push(tile);
+            let rows = [];
+            for(let col = 0; col < columns; col++)
+            {
+                let tile = document.createElement("div");
+                tile.id = r.toString() + "-" + col.toString();
+                tile.addEventListener("click", clickCells);
+                document.getElementById("board").append(tile);
+                rows.push(tile);
+            }
+            board.push(rows);
         }
-        board.push(rows);
     }
+    else
+    {   
+        for (let r = 0; r < rows; r++)
+        {
+            let rows = [];
+            for(let col = 0; col < columns; col++)
+            {
+                let tile = document.createElement("div");
+                tile.id = r.toString() + "-" + col.toString();
+                tile.addEventListener("click", clickCells);
+                document.getElementById("board").append(tile);
+                rows.push(tile);
+            }
+            board.push(rows);
+        }
+    }   
 }
 
 function setMines()
@@ -62,7 +82,7 @@ function clickCells()
     {
         gameOver = true;
         revealMines();
-        document.getElementById("status").innerText = "💀";
+        document.getElementById("resetButton").innerText = "💀";
         return;
     }
 
@@ -146,4 +166,12 @@ function checkTile(r, c)
         return 1;
     }
     return 0;
+}
+
+function getUrlParameters()
+{
+    var url = document.location.href;
+    var separatedUrl = url.split('?');
+    var parameters = separatedUrl[1];
+    return parameters;
 }
