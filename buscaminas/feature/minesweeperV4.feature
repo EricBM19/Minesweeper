@@ -46,42 +46,41 @@ Scenario: Activating the Timer
 When the user reveals the box "1-1"
 Then the Timer value should start counting
 
+@done
 Scenario: When the user thinks there is a mined box, then tags the box as mined
-When the user marks the box "1-1" as mined
-Then the box "1-1" should display a mined symbol
+When the user marks the box "1-1" as "mined"
+Then the box "1-1" should display a symbol: "!"
 
+@done
 Scenario: When the user thinks there can be a mine in one box, then tags the box as uncertain
-When the user marks the box "1-1" as uncertain
-Then the box "1-1" should display a uncertain symbol
+When the user marks the box "1-1" as "uncertain"
+Then the box "1-1" should display a symbol: "?"
 
-Scenario: Untagging a box with a mined symbol
-Given the user tags as mined: "1-1"
-When the user tags again "1-1"
-Then the tags should be: "uncertain symbol"
+@done
+Scenario: When the user wants to remove a tag and let the box no-tag
+When the user marks the box "1-1" as "no-tag"
+Then the box "1-1" should display a symbol: ""
 
-Scenario: Untagging a box with an uncertain symbol
-Given the user has an uncertain tag over the box: "1-1"
-When the user tags again "1-1"
-Then the tags should be: ""
-
+@done
 Scenario Outline: Tagging/Untagging a box with the mouse (right click)
 Given the user tags as "<current-tag>" the box "1-1"
 When the user right clicks on cell "1-1"
 Then the box "1-1" should be "<new-tag>"
 
 Examples:
-| current-tag | new-tag |
+| current-tag | new-tag  |
 | no-tag      | mined    |
 | mined       | uncertain|
 | uncertain   | no-tag   |
 
-Scenario: Changing the Counter value by adding a mined tag
+@done
+Scenario Outline: Changing the Counter value by adding a mined tag
 Given the Counter shows a "<current-value>"
-When the user tags a box at "<Row-Column>" as mined
-Then the "<Counter value>" should change 
+When the user marks the box "<row-column>" as "mined"
+Then the "<counter-value>" should change 
 
-Example:
-| current-value |  Row-Column  | Counter Value |
+Examples:
+| current-value |  row-column  | counter-value |
 |       10      |     1-1      |       9       |
 |        5      |     2-6      |       4       |
 
@@ -189,3 +188,6 @@ Scenario: Exceding the time limit
 Given the user set the next timer value: "999"
 And the user tags as mined "1-1"
 Then the next value should be: "∞"
+
+# Guardar en otra url el mapa mock para los scenarios que clican celdas concretas.
+# Añadir Given.
