@@ -200,16 +200,21 @@ function tagCell()
 {
     event.preventDefault();
     let tile = this;
+    let counter = document.getElementById("mines-counter");
     
     if(!this.classList.contains("tile-clicked"))
     {
         if(tile.innerText == '')
         {
-            tile.innerText = '!';   
+            tile.innerText = '!';
+            minesCount = parseInt(counter.innerText) -1;
+            counter.innerText = minesCount;
         }
         else if(tile.innerText == '!')
         {
             tile.innerText = '?';
+            minesCount = parseInt(counter.innerText) +1;
+            counter.innerText = minesCount;
         }
         else if(tile.innerText == '?')
         {
