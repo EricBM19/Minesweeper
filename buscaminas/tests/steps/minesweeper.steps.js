@@ -111,3 +111,21 @@ Then('the box {string} should be {string}', async (string, string2) =>
   let tile = await page.locator('data-test-id=' + string).innerText();
   expect(tile).toBe(string2);
 });
+
+Given('the Counter shows a {string}', async (string) => 
+{
+  let board = await page.locator('data-test-id=minefield').locator('div');
+  let counterValue = 10 - parseInt(string);
+
+  for(i = 1; i <= counterValue; i++)
+  {
+    var boardId = await board.nth(i).getAttribute('id');
+    await page.click('id=' + boardId, {button: 'right'});
+  }
+});
+
+Then('the {string} should change', async (string) =>
+{
+  let counter = await page.locator('data-test-id=counter').innerText();
+  expect(counter).toBe(string);
+});
