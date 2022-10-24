@@ -55,10 +55,59 @@ When('the user marks the box {string} as {string}', async (string, string2) =>
     await page.click(tileId, {button: 'right'});
     await page.click(tileId, {button: 'right'});
   }
+  else if(string2 == 'no-tag')
+  {
+    await page.click(tileId, {button: 'right'});
+    await page.click(tileId, {button: 'right'});
+    await page.click(tileId, {button: 'right'});
+  }
 });
 
 Then('the box {string} should display a symbol: {string}', async (string, string2) =>
 {
+  if(string2 == 'no-tag')
+  {
+    string2 = '';
+  }
+  let tile = await page.locator('data-test-id=' + string).innerText();
+  expect(tile).toBe(string2);
+});
+
+Given('the user tags as {string} the box {string}', async (string, string2) => 
+{
+  var tileId = 'data-test-id=' + string2;
+  if(string == "mined")
+  {
+    await page.click(tileId, {button: 'right'});
+  }
+  else if(string == "uncertain")
+  {
+    await page.click(tileId, {button: 'right'});
+    await page.click(tileId, {button: 'right'});
+  }
+});
+
+When('the user right clicks on cell {string}', async (string) => 
+{
+  var tileId = 'data-test-id=' + string;
+  await page.click(tileId, {button: 'right'});
+
+});
+
+Then('the box {string} should be {string}', async (string, string2) =>
+{
+  if(string2 == 'no-tag')
+  {
+    string2 = '';
+  }
+  else if(string2 == 'mined')
+  {
+    string2 = '!';
+  }
+  else if(string2 == 'uncertain')
+  {
+    string2 = '?';
+  }
   let tile = await page.locator('data-test-id=' + string).innerText();
   expect(tile).toBe(string2);
 });
