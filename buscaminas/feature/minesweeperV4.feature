@@ -6,17 +6,6 @@ Feature: Minesweeper
 "1-1" means row 1, column 1
 Rows and columns start at 1
 
-"""
-| 1 | 2 | - | - | 1 | 1 | 1 | 1 |
-| - | 3 | 3 | 2 | 1 | 2 | - | 2 |
-| 2 | - | 1 | 0 | 0 | 2 | - | 2 |
-| 1 | 1 | 1 | 0 | 0 | 1 | 1 | 0 |
-| 0 | 0 | 0 | 0 | 0 | 0 | - | - |
-| 0 | 0 | 0 | 0 | 0 | 0 | - | - |
-| 0 | 1 | 1 | 1 | 0 | 0 | 3 | - |
-| 0 | 1 | - | 1 | 0 | 0 | 2 | - |
-"""
-
 Background:
 Given a user opens the app
 
@@ -84,17 +73,20 @@ Examples:
 |       10      |     1-1      |       9       |
 |        5      |     2-6      |       4       |
 
+@done
 Scenario: Revealing a tagged box must be allowed
-Given the user tags the box at "1-1" as mined
-When the user revals the box "1-1"
+Given the user loads "?Mockdata"
+Given the user tags as "mined" the box "1-1"
+When the user reveals the box "1-1"
 Then the box "1-1" should reveal its content
 
+@done
 Scenario Outline: When the user reveals a mined box, the game ends with a game over
-Given the user reveal the box at "<Row-Column>"
-When the box reveals a mine box
-Then the game should end
+Given the user loads "?Mockdata"
+When the user reveals the box "<Row-Column>"
+Then the status should be: "💀"
 
-Example:
+Examples:
 |  Row-Column  |
 |     1-3      |
 |     2-1      |
@@ -106,19 +98,13 @@ Example:
 |     8-3      |
 |     8-8      |
 
-Scenario: Revealing all bombs when the player dies
-When the user reveal the box at "1-3"
-Then all the bombs should be displayed
-
-Scenario: The game end with a game over and all the uncertaing tagged boxes reveal their bombs
-When the user reveal the box at "1-3"
-Then all boxes marked tagged as uncertain should be displayed
-
+@done
 Scenario Outline: Revealing a box with bombs near and without a mine
-When the user reveal the box at "<Row-Column>"
-Then the box should display a "<Number>"
+Given the user loads "?Mockdata"
+When the user reveals the box "<Row-Column>"
+Then the box "<Row-Column>" should display a "<Number>"
 
-Example:
+Examples:
 
 |  Row-Column  |  Number  |
 |     1-1      |    1     |
@@ -127,49 +113,47 @@ Example:
 |     7-3      |    1     |
 |     3-6      |    2     |
 
-Scenario: When the game is over and the user had tagged a box incorrectly, we should show the mistaken tagged cells
-Given the user tags as mined a box at "1-1"
-When the user unleash a mined cell at "2-1"
-Then the "1-1" box should display a bad tagged mine symbol
-
+@done
 Scenario: Showing an empty box, a box without number, mine or adjacent mines
-When the user reveals the box at "3-4"
-Then an empty box should appear
+Given the user loads "?Mockdata"
+When the user reveals the box "3-4"
+Then the box "3-4" should display ""
 
-Scenario: Revealing an empty cell, then all the surrounding cells must be unleashed
-When the user reveals the box at "3-4" 
-Then all the adjacent boxes to "3-4" should be revealed
+@done
+Scenario Outline: An empty cell revealed by a neighbour, revealling surroindeing cells
+Given the user loads "?Mockdata"
+When the user reveals the box "3-4" 
+Then the box "<Row-Column>" should display ""
 
-Scenario: An empty cell revealed by a neighbour, revealling surroindeing cells
-When the user reveals the box at "3-4" 
-Then the minefield should look like:
-"""
-| 1 | 2 | - | - | 1 | 1 | 1 | 1 |
-| - | 3 | 3 | 2 | 1 | 2 | - | 2 |
-| 2 | - | 1 | 0 | 0 | 2 | - | 2 |
-| 1 | 1 | 1 | 0 | 0 | 1 | 1 | 0 |
-| 0 | 0 | 0 | 0 | 0 | 0 | - | - |
-| 0 | 0 | 0 | 0 | 0 | 0 | - | - |
-| 0 | 1 | 1 | 1 | 0 | 0 | 3 | - |
-| 0 | 1 | - | 1 | 0 | 0 | 2 | - |
-"""
+Examples:
 
+|  Row-Column  |
+|     3-5      |
+|     4-4      |
+|     4-5      |
+|     5-1      |
+|     5-2      |
+|     5-3      |
+|     5-4      |
+|     5-5      |
+|     5-6      |
+|     6-1      |
+|     6-2      |
+|     6-3      |
+|     6-4      |
+|     6-5      |
+|     6-6      |
+|     7-1      |
+|     7-5      |
+|     7-6      |
+|     8-1      |
+|     8-5      |
+|     8-6      |
+
+@manual
 Scenario: Revealing all the cells without bomb, the player wins
 When the user reveals all the cells without bombs
 Then the player wins the game
-
-Scenario: Disabling the cells when the player ends the game by revealing a bomb
-Given the user loses
-Then all the cells should be disabled
-
-Scenario: Disabling the cells when the player wins
-Given the player wins the game
-Then all the cells should be disabled
-
-Scenario: Reseting a game with tagged boxes
-Given the user has tagged with a mined symbol boxes: "1-3" and "1-4"
-When the user resets the game
-Then all cells should be clear and without any information
 
 @manual
 Scenario: Reseting the Timer in the middle of one game
@@ -182,12 +166,6 @@ Scenario: Reseting the Counter value
 Given the user tags a box at "1-1" as mined
 When the user presses the "reset" button
 Then the Counter value should be: "10"
-
-@manual
-Scenario: Exceding the time limit
-Given the user set the next timer value: "999"
-And the user tags as mined "1-1"
-Then the next value should be: "∞"
 
 # Guardar en otra url el mapa mock para los scenarios que clican celdas concretas.
 # Añadir Given.
