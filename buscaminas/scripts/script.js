@@ -8,10 +8,12 @@ var tilesClicked = 0;
 var seconds = null;
 
 var gameOver = false;
+var timerOn = false;
 
 window.onload = function()
 {
     startGame();
+    resetButton();
 }
 
 function startGame()
@@ -91,6 +93,8 @@ function setRandomMines()
 
 function clickCells()
 {
+
+    startTimer();
     if(gameOver || this.classList.contains("tile-clicked"))
     {
         return;
@@ -110,6 +114,11 @@ function clickCells()
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
     checkMines(r,c);
+
+    if(!minesLocation.includes(tile.id))
+    {
+        winTheGame();
+    }
 }
 
 function revealMines()
@@ -140,6 +149,7 @@ function checkMines(r, c)
     }
 
     board[r][c].classList.add("tile-clicked");
+    tilesClicked++;
 
     let minesFound = 0;
 
@@ -222,4 +232,45 @@ function tagCell()
         }
     }
     
+}
+
+function resetButton()
+{
+    document.getElementById("resetButton").addEventListener("click",(event) =>
+    {
+        window.location.reload();
+    })
+}
+
+function startTimer()
+{
+    let time = document.getElementById("timer");
+    let seconds = 0;
+
+    if(!timerOn)
+    {
+        window.setInterval(function() 
+        {
+            if(!gameOver)
+            {
+                time.innerText = seconds;
+                seconds++;
+                timerOn = true;
+            }
+        }, 1000);
+    }    
+}
+
+function winTheGame()
+{
+    if((rows*columns)-minesCount == tilesClicked)
+    {
+        gameOver = true;
+        document.getElementById("resetButton").innerText = "🙂";
+        
+        for(i = 0; i < minesLocation.length; i++)
+        {
+            document.getElementById(minesLocation[i]).innerText = '!';
+        }
+    }
 }
