@@ -129,3 +129,35 @@ Then('the {string} should change', async (string) =>
   let counter = await page.locator('data-test-id=counter').innerText();
   expect(counter).toBe(string);
 });
+
+Given('the user loads {string}', async (string) => 
+{
+   await page.goto(url + string);
+});
+
+When('the user reveals the box {string}', async (string) =>
+{
+  var tileId = 'data-test-id=' + string;
+  await page.click(tileId);
+});
+
+Then('the box {string} should reveals its content', async (string) => 
+{
+  var tileId = 'data-test-id=' + string;
+  var tile = await page.locator(tileId);
+  await expect(tile).toHaveAttribute('class', 'tile-clicked x1');
+});
+
+Then('the box {string} should display a {string}', async (string, string2)  =>
+{
+  let tile = await page.locator('data-test-id=' + string).innerText()
+
+  expect(tile).toBe(string2);
+
+});
+
+Then('the box {string} should display {string}', async (string, string2) =>
+{
+  let tile = await page.locator('data-test-id=' + string).innerText()
+  expect(tile).toBe(string2);
+});
