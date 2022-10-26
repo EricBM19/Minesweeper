@@ -141,7 +141,7 @@ When('the user reveals the box {string}', async (string) =>
   await page.click(tileId);
 });
 
-Then('the box {string} should reveals its content', async (string) => 
+Then('the box {string} should reveal its content', async (string) => 
 {
   var tileId = 'data-test-id=' + string;
   var tile = await page.locator(tileId);
